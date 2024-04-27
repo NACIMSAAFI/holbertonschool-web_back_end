@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
-"""Program use async_comprehension in python"""
-
-from typing import List
+''' Function that return a list '''
 import asyncio
+from typing import List
 
 async_generator = __import__("0-async_generator").async_generator
 
 
 async def async_comprehension() -> List[float]:
-    """
-    An async coroutine that uses async comprehension
-    to collect 10 random numbers.
-    """
+    """Function that return a list"""
     result = [result async for result in async_generator()]
     return result
