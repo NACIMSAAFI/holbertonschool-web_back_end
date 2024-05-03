@@ -3,14 +3,7 @@
 
 import csv
 from typing import List
-
-
-def index_range(page: int, page_size: int) -> tuple:
-    """Return the tuple of start and end indices"""
-
-    start_index = (page - 1) * page_size
-    end_index = start_index + page_size
-    return (start_index, end_index)
+from .0-simple_helper_function import index_range
 
 
 class Server:
@@ -28,7 +21,7 @@ class Server:
             with open(self.DATA_FILE) as f:
                 reader = csv.reader(f)
                 dataset = [row for row in reader]
-            self.__dataset = dataset[1:]
+            self.__dataset = dataset[:]
 
         return self.__dataset
 
@@ -48,4 +41,6 @@ class Server:
 
         dataset = self.dataset()
         start_index, end_index = index_range(page, page_size)
+         if start_index >= len(dataset):
+            return []
         return dataset[start_index:end_index]
