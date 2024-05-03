@@ -1,25 +1,35 @@
 #!/usr/bin/env python3
-""" Simple pagination """
-
+"""Simple_pagination.py"""
 import csv
+import math
 from typing import List
-from .0-simple_helper_function import index_range
+
+
+def index_range(page: int, page_size: int) -> tuple:
+    """Return the tuple of start and end indices"""
+    # Calculate the start index
+    start_index = (page - 1) * page_size
+    # Calculate the end index
+    end_index = start_index + page_size
+    # Return the tuple of start and end indices
+    return (start_index, end_index)
 
 
 class Server:
-    """Server class to paginate a database of popular baby names.
-    """
+    """Server class to paginate a database of popular baby names."""
+
+    DATA_FILE = "Popular_Baby_Names.csv"
+
     def __init__(self):
         self.__dataset = None
 
     def dataset(self) -> List[List]:
-        """Cached dataset
-        """
+        """Cached dataset"""
         if self.__dataset is None:
             with open(self.DATA_FILE) as f:
                 reader = csv.reader(f)
                 dataset = [row for row in reader]
-            self.__dataset = dataset[1:]
+            self.__dataset = dataset[:]
 
         return self.__dataset
 
@@ -34,8 +44,8 @@ class Server:
         Returns:
             List[List]: A list containing the rows for the requested page.
         """
-        assert type(page) == int and page > 0
-        assert type(page_size) == int and page_size > 0
+        assert type(page) is int and type(page_size) is int
+        assert page > 0 and page_size > 0
         dataset = self.dataset()
         start_index, end_index = index_range(page, page_size)
         if start_index >= len(dataset):
