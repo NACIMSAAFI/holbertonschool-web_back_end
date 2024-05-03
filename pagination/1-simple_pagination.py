@@ -3,7 +3,14 @@
 
 import csv
 from typing import List
-from .0-simple_helper_function import index_range
+
+
+def index_range(page: int, page_size: int) -> tuple:
+    """Return the tuple of start and end indices"""
+
+    start_index = (page - 1) * page_size
+    end_index = start_index + page_size
+    return (start_index, end_index)
 
 
 class Server:
