@@ -1,3 +1,3 @@
-// cript that displays the number of documents in the collection school.
+// Script that displays the number of documents in the collection school.
 
 db.school.countDocuments({});
