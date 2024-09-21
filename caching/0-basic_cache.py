@@ -8,6 +8,8 @@ from base_caching import BaseCaching
 
 
 class BasicCache(BaseCaching):
+    """Basic dictionary"""
+
     def put(self, key, item):
         """Assign the value to the cache data dictionary."""
         if key is None or item is None:
