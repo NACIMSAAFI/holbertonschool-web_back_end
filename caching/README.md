@@ -30,11 +30,16 @@ At the end of this project, we should be able to explain the following concepts 
 
 Read or watch the following materials to deepen our understanding:
 
-- <a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#First_In_First_Out_%28FIFO%29" target="_blank">Cache Replacement Policies - FIFO</a><br>
-- <a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Last_In_First_Out_%28LIFO%29" target="_blank">Cache Replacement Policies - LIFO</a><br>
-- <a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_Recently_Used_%28LRU%29" target="_blank">Cache Replacement Policies - LRU</a><br>
-- <a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Most_Recently_Used_%28MRU%29" target="_blank">Cache Replacement Policies - MRU</a><br>
-- <a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Least-Frequently_Used_%28LFU%29" target="_blank">Cache Replacement Policies - LFU</a>
+## Resources
+
+Read or watch the following materials to deepen our understanding:
+
+- <a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#First_In_First_Out_%28FIFO%29" target="_blank" rel="noopener noreferrer">Cache Replacement Policies - FIFO</a><br>
+- <a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Last_In_First_Out_%28LIFO%29" target="_blank" rel="noopener noreferrer">Cache Replacement Policies - LIFO</a><br>
+- <a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_Recently_Used_%28LRU%29" target="_blank" rel="noopener noreferrer">Cache Replacement Policies - LRU</a><br>
+- <a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Most_Recently_Used_%28MRU%29" target="_blank" rel="noopener noreferrer">Cache Replacement Policies - MRU</a><br>
+- <a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Least-Frequently_Used_%28LFU%29" target="_blank" rel="noopener noreferrer">Cache Replacement Policies - LFU</a>
+
 
 
 
