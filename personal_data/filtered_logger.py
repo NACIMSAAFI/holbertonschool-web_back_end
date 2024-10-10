@@ -4,10 +4,16 @@ Function called filter_datum that
 
 returns the log message obfuscated.
 """
+from typing import List
 import re
+import logging
 
 
-def filter_datum(fields, redaction, message, separator):
+def filter_datum(
+        fields: List[str],
+        redaction: str,
+        message: str,
+        separator: str) -> str:
     """
     Obfuscate specified fields in the log message.
 
