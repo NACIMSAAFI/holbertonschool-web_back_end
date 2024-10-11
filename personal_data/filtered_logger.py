@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 """
-Function called filter_datum that
-
-returns the log message obfuscated.
+Filtered logger for user data.
 """
 from typing import List
-import re
 import logging
+import re
+
+PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
 def filter_datum(
-    fields: List[str], redaction: str, message: str, separator: str
-) -> str:
+        fields: List[str],
+        redaction: str,
+        message: str,
+        separator: str) -> str:
     """
     Obfuscate specified fields in the log message.
 
@@ -24,10 +26,9 @@ def filter_datum(
     Returns:
         The modified log message with specified fields obfuscated.
     """
-
     for field in fields:
         message = re.sub(
-            f"{field}=.*?{separator}",
+            rf"{re.escape(field)}=.*?{re.escape(separator)}",
             f"{field}={redaction}{separator}",
             message
         )
@@ -36,43 +37,39 @@ def filter_datum(
 
 class RedactingFormatter(logging.Formatter):
     """
-    Uses 'filter_datum' to redact the PII fields
-    in a record message.
+    Uses 'filter_datum' to redact the PII fields in a record message.
     """
 
     REDACTION = "***"
-    FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
+    FORMAT = "[USER_DATA] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
     def __init__(self, fields: List[str]):
-        super(RedactingFormatter, self).__init__(self.FORMAT)
-
+        super().__init__(self.FORMAT)
         self.fields: List[str] = fields
 
     def format(self, record: logging.LogRecord) -> str:
         """
-        Returns the 'record.getMessage()',
-        formatted using '% self.FORMAT',
-        and filtered to censor the sensitive user information,
-        using the 'filter_datum' function,
+        Returns the formatted log message filtered
+        to censor sensitive information.
         """
-        FORMATTED_MSG: str = super().format(record)
+        formatted_msg: str = super().format(record)
         return filter_datum(
-            self.fields,
-            self.REDACTION,
-            FORMATTED_MSG,
-            self.SEPARATOR)
-
-
-PII_FIELDS = "name", "email", "phone", "ssn", "password"
+            self.fields, self.REDACTION, formatted_msg, self.SEPARATOR
+        )
 
 
 def get_logger() -> logging.Logger:
-    """ get_logger Function """
-    logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger(__name__)
+    """
+    Returns a configured logger object.
+    """
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+
     handler = logging.StreamHandler()
-    formatter = RedactingFormatter((PII_FIELDS))
+    formatter = RedactingFormatter(PII_FIELDS)
     handler.setFormatter(formatter)
+
     logger.addHandler(handler)
     return logger
