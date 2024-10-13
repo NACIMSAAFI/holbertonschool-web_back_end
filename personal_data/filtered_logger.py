@@ -91,3 +91,26 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     except Exception as e:
         print(f"Unexpected error: {e}")
         return None
+
+
+def main() -> None:
+    """ Main function to fetch and log user data. """
+    logger = get_logger()
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+
+    for row in cursor:
+        log_message = (
+            f"name={row[0]}; email={row[1]}; phone={row[2]}; "
+            f"ssn={row[3]}; password={row[4]}; ip={row[5]}; "
+            f"last_login={row[6]}; user_agent={row[7]};"
+        )
+        logger.info(log_message)
+
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
