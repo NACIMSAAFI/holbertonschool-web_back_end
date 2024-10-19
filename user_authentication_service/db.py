@@ -50,23 +50,13 @@ class DB:
         return user
 
     def find_user_by(self, **kwargs) -> User:
-        """
-        Finds the first row in the 'users' table
-        that matches the 'kwargs'.
-
-        Then, returns the row as a User object.
-
-        If the 'kwargs' don't match the definition of 'User',
-        this method raises 'InvalidRequestError'.
-
-        If no matching 'User' row is found,
-        this method raises 'NoResultFound'.
-        """
-        RESULT: Union[User, None] = (
-            self._session.query(User).filter_by(**kwargs).first()
-        )
-
-        if RESULT is None:
-            raise NoResultFound
-
+        """Method that finds the wanted User
+        using keyword arguments"""
+        Session = self._session
+        try:
+            RESULT = Session.query(User).filter_by(**kwargs).first()
+            if RESULT is None:
+                raise NoResultFound
+        except AttributeError:
+            raise InvalidRequestError
         return RESULT
