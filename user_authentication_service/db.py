@@ -71,3 +71,27 @@ class DB:
             raise NoResultFound
 
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """Update an existing user in the database.
+
+        Args:
+            user_id (int): The ID of the user to update.
+            **kwargs: Arbitrary keyword arguments to update user fields.
+
+        Raises:
+            InvalidRequestError: If no fields to update are provided.
+            NoResultFound: If no user matches the user_id.
+            ValueError: If an invalid attribute is passed in kwargs.
+        """
+        if not kwargs:
+            raise InvalidRequestError
+
+        user = self.find_user_by(id=user_id)
+
+        for key, value in kwargs.items():
+            if not hasattr(user, key):
+                raise ValueError
+            setattr(user, key, value)
+
+        self._session.commit()
