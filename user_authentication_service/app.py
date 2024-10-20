@@ -16,7 +16,7 @@ def message():
 
 
 @app.route("/users", methods=["POST"])
-def register_user():
+def register():
     """Register a new user."""
     email = request.form.get("email")
     password = request.form.get("password")
