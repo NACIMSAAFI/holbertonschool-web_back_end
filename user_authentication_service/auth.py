@@ -83,9 +83,11 @@ class Auth:
         """create_session method that
         returns the session ID as a string."""
         try:
-            user = self._db.find_user_by(email=email)
-            session_id = _generate_uuid()
-            self._db.update_user(user.id, session_id=session_id)
-            return session_id
+            User = self._db.find_user_by(email=email)
         except NoResultFound:
             return None
+        else:
+            ID = _generate_uuid()
+            User.session_id = ID
+            self._db._session.commit()
+        return ID
