@@ -18,7 +18,7 @@ def message():
 
 @app.route("/users", methods=["POST"])
 def register():
-    """register end-point"""
+    """Register user."""
     email = request.form.get("email")
     password = request.form.get("password")
     try:
