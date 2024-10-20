@@ -80,14 +80,18 @@ class Auth:
             return False
 
     def create_session(self, email: str) -> str:
-        """create_session method that
-        returns the session ID as a string."""
+        """Create a new session for a user and return the session ID.
+
+        Args:
+            email (str): The user's email address.
+
+        Returns:
+            str: The session ID if the user exists, None otherwise.
+        """
         try:
-            User = self._db.find_user_by(email=email)
+            user = self._db.find_user_by(email=email)
+            session_id = _generate_uuid()
+            self._db.update_user(user.id, session_id=session_id)
+            return session_id
         except NoResultFound:
             return None
-        else:
-            ID = _generate_uuid()
-            User.session_id = ID
-            self._db._session.commit()
-        return ID
