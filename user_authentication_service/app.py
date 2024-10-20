@@ -15,16 +15,16 @@ def message():
     return jsonify({"message": "Bienvenue"})
 
 
+
 @app.route("/users", methods=["POST"])
 def register():
-    """Register a new user."""
+    """register end-point"""
     email = request.form.get("email")
     password = request.form.get("password")
-
     try:
         user = AUTH.register_user(email, password)
-        return jsonify({"email": email, "message": "user created"}), 201
-    except ValueError as err:
+        return jsonify({"email": email, "message": "user created"})
+    except ValueError:
         return jsonify({"message": "email already registered"}), 400
 
 
