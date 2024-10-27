@@ -1,6 +1,7 @@
-# 3-app.py
-from flask import Flask, request, render_template
-from flask_babel import Babel, _
+#!/usr/bin/env python3
+""" Task 3: Parametrize templates """
+from flask import Flask, render_template, request
+from flask_babel import Babel, gettext
 
 app = Flask(__name__)
 
