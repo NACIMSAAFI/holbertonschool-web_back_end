@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Test Utils File"""
+"""Test Access Nested Map File"""
 
 import unittest
 from parameterized import parameterized
@@ -7,7 +7,7 @@ from utils import access_nested_map
 
 
 class TestAccessNestedMap(unittest.TestCase):
-    """Test class for access_nested_map function"""
+    """Test Access Nested Map Class"""
 
     @parameterized.expand(
         [
@@ -16,13 +16,14 @@ class TestAccessNestedMap(unittest.TestCase):
             ({"a": {"b": 2}}, ("a", "b"), 2),
         ]
     )
-    def test_access_nested_map(self, nested_map, path, expected):
-        """Test access_nested_map with different inputs"""
-        self.assertEqual(access_nested_map(nested_map, path), expected)
+    def test_access_nested_map(self, nested_map, path, expected_output):
+        """Test Access Nested Map Method"""
+        real_output = access_nested_map(nested_map, path)
+        self.assertEqual(real_output, expected_output)
 
     @parameterized.expand([({}, ("a",), "a"), ({"a": 1}, ("a", "b"), "b")])
     def test_access_nested_map_exception(self, nested_map, path, wrong_key):
-        """Test access_nested_map raises KeyError for invalid paths"""
+        """Test Access Nested Map Exception Method"""
         with self.assertRaises(KeyError) as context:
             access_nested_map(nested_map, path)
 
