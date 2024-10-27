@@ -1,58 +1,35 @@
 #!/usr/bin/env python3
-"""
-Exercise 2: Use the 'babel.localeselector'
-to find the best matching available language
-to give to the user.
-"""
-import flask
-import flask_babel
-from typing import Union
-from os import environ
+"""Basic Babel setup"""
+
+from flask import Flask, render_template, request
+from flask_babel import Babel
+
+app = Flask(__name__, template_folder="templates")
+babel = Babel(app)
 
 
-class Config:
-    """
-    Contains the allowed languages
-    and default timezone for 'babel'.
-    """
+class Config():
+    """config class for babel configuration"""
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
 
 
-app = flask.Flask(__name__)
 app.config.from_object(Config)
-babel = flask_babel.Babel(app)
 
 
 @babel.localeselector
-def get_locale() -> Union[str, None]:
-    """
-    Returns the language from 'app.config["LANGUAGES"]'
-    that best matches the languages in the request's
-    'Accept-Language' header,
-    using:
-
-    return flask.request.accept_languages.best_match(
-        app.config["LANGUAGES"]
-    )
-    """
-    return flask.request.accept_languages.best_match(
-        app.config["LANGUAGES"]
-    )
+def get_locale():
+    """get_locale method that determine the best match
+    with our supported languages for the client's browser"""
+    return request.accept_languages.best_match(Config.LANGUAGES)
 
 
-@app.route("/", strict_slashes=False)
-def home() -> flask.Response:
-    """
-    Returns the 0th template.
-    Has "Welcome to Holberton" as page <title>
-    and "Hello world" as the <h1>.
-    """
-    return flask.render_template("2-index.html")
+@app.route('/')
+def index():
+    """index method to render default template"""
+    return render_template("2-index.html")
 
 
 if __name__ == "__main__":
-    app.run(
-        environ.get("HOST"), environ.get("PORT")
-    )
+    app.run(debug=True)
