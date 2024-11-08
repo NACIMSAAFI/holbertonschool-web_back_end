@@ -18,12 +18,13 @@ def count_calls(method: Callable) -> Callable:
     Returns:
         Callable: The decorated method with call counting.
     """
-    key = method.__qualname__
 
     @wraps(method)
     def wrapper(self, *args, **kwargs):
-        """Wrapper for decorator functionality"""
+        # Increment the count for the method using its qualified name
+        key = method.__qualname__
         self._redis.incr(key)
+        # Call the original method and return its result
         return method(self, *args, **kwargs)
 
     return wrapper
