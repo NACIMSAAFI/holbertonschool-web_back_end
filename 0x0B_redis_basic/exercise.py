@@ -3,8 +3,8 @@
 Redis
 """
 import redis
-import uuid
-from typing import Union, Callable, Optional
+from typing import Union, Optional, Callable
+from uuid import uuid4, UUID
 from functools import wraps
 
 
@@ -49,6 +49,33 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
+def replay(fn: Callable):
+    """Display the history of calls of a particular function"""
+    r = redis.Redis()
+    f_name = fn.__qualname__
+    n_calls = r.get(f_name)
+    try:
+        n_calls = n_calls.decode("utf-8")
+    except Exception:
+        n_calls = 0
+    print(f"{f_name} was called {n_calls} times:")
+
+    ins = r.lrange(f_name + ":inputs", 0, -1)
+    outs = r.lrange(f_name + ":outputs", 0, -1)
+
+    for i, o in zip(ins, outs):
+        try:
+            i = i.decode("utf-8")
+        except Exception:
+            i = ""
+        try:
+            o = o.decode("utf-8")
+        except Exception:
+            o = ""
+
+        print(f"{f_name}(*{i}) -> {o}")
+
+
 class Cache:
     """Class for implementing a Cache"""
 
@@ -57,6 +84,8 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @call_history
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         Store the given data in Redis with a randomly generated key.
@@ -67,7 +96,7 @@ class Cache:
         Returns:
             str: The randomly generated key used to store the data.
         """
-        random_key = str(uuid.uuid4())  # Generate a unique key
+        random_key = str(uuid4())  # Generate a unique key
         self._redis.set(random_key, data)  # Store data in Redis with the key
         return random_key
 
