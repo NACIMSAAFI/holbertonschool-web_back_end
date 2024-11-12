@@ -1,0 +1,16 @@
+{
+    "name": "unittests_in_js",
+    "version": "1.0.0",
+    "description": "Unit testing with Mocha and Node.js",
+    "main": "0-calcul.js",
+    "scripts": {
+      "test": "mocha"
+    },
+    "dependencies": {},
+    "devDependencies": {
+      "mocha": "^10.2.0"
+    },
+    "author": "Nacim Saafi",
+    "license": "MIT"
+  }
+  
