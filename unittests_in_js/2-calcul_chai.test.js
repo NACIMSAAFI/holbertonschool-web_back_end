@@ -1,14 +1,14 @@
 // 2-calcul_chai.test.js
+/* eslint-disable */
 const expect = require('chai').expect;
 const calculateNumber = require('./2-calcul_chai');
 
 describe('calculateNumber', () => {
-  // Test cases for 'SUM'
   it('should return an int number', () => {
-    expect(calculateNumber('SUM', 2.3, 3.1)).to.be.a('number');
+    expect(calculateNumber(2.3, 3.1)).to.be.a('number');
   });
   it('should return sum of num', () => {
-    expect(calculateNumber('SUM', 2.2, 2.8)).to.deep.equal(5);
+    expect(calculateNumber('SUM', 2.2, 2, 3)).to.deep.equal(4);
   });
   it('should return sum', () => {
     expect(calculateNumber('SUM', 1, 3)).to.deep.equal(4);
@@ -22,80 +22,84 @@ describe('calculateNumber', () => {
   it('sum', () => {
     expect(calculateNumber('SUM', 1.5, 3.7)).to.deep.equal(6);
   });
-  it('sum negative numbers', () => {
+  it('sumNums', () => {
     expect(calculateNumber('SUM', -2, -2)).to.deep.equal(-4);
   });
-  it('sum with negative decimals', () => {
+  it('sum negative', () => {
     expect(calculateNumber('SUM', -1.3, -4.5)).to.deep.equal(-5);
   });
-  it('sum decimals rounding up', () => {
+  it('sum decimals', () => {
     expect(calculateNumber('SUM', 0.4, 0.6)).to.deep.equal(1);
   });
-  it('sum decimals rounding down', () => {
+  it('sum decimal', () => {
     expect(calculateNumber('SUM', 0.4, 0.2)).to.deep.equal(0);
   });
-
-  // Test cases for 'SUBTRACT'
-  it('should return subtraction of num', () => {
-    expect(calculateNumber('SUBTRACT', 2.2, 2.8)).to.deep.equal(0);
+  it('sum main', () => {
+    expect(calculateNumber('SUM', 1.4, 4.5)).to.deep.equal(6);
   });
-  it('should return subtraction', () => {
+
+  it('should return subs of num', () => {
+    expect(calculateNumber('SUBTRACT', 2.2, 2, 3)).to.deep.equal(0);
+  });
+  it('should return sub', () => {
     expect(calculateNumber('SUBTRACT', 1, 3)).to.deep.equal(-2);
   });
-  it('subtraction of numbers', () => {
+  it('sub of nums', () => {
     expect(calculateNumber('SUBTRACT', 1, 3.7)).to.deep.equal(-3);
   });
-  it('return subtraction of numbers', () => {
+  it('return sub of nums', () => {
     expect(calculateNumber('SUBTRACT', 1.2, 3.7)).to.deep.equal(-3);
   });
-  it('subtraction', () => {
+  it('sub', () => {
     expect(calculateNumber('SUBTRACT', 1.5, 3.7)).to.deep.equal(-2);
   });
-  it('subtraction of negative numbers', () => {
+  it('subNums', () => {
     expect(calculateNumber('SUBTRACT', -2, -2)).to.deep.equal(0);
   });
-  it('subtraction with negative decimals', () => {
+  it('sub negative', () => {
     expect(calculateNumber('SUBTRACT', -1.3, -4.5)).to.deep.equal(3);
   });
-  it('subtraction decimals rounding up', () => {
+  it('sub decimals', () => {
     expect(calculateNumber('SUBTRACT', 0.4, 0.6)).to.deep.equal(-1);
   });
-  it('subtraction decimals rounding down', () => {
+  it('sub decimal', () => {
     expect(calculateNumber('SUBTRACT', 0.4, 0.2)).to.deep.equal(0);
   });
-
-  // Test cases for 'DIVIDE'
-  it('should return division of numbers', () => {
-    expect(calculateNumber('DIVIDE', 2.2, 2.8)).to.deep.equal(1);
+  it('sub main', () => {
+    expect(calculateNumber('SUBTRACT', 1.4, 4.5)).to.deep.equal(-4);
   });
-  it('should return division', () => {
+
+  it('should return divs of num', () => {
+    expect(calculateNumber('DIVIDE', 2.2, 2, 3)).to.deep.equal(1);
+  });
+  it('should return div', () => {
     expect(calculateNumber('DIVIDE', 1, 3)).to.deep.equal(0.3333333333333333);
   });
-  it('division of numbers', () => {
+  it('div of nums', () => {
     expect(calculateNumber('DIVIDE', 1, 3.7)).to.deep.equal(0.25);
   });
-  it('return division of numbers', () => {
+  it('return div of nums', () => {
     expect(calculateNumber('DIVIDE', 1.2, 3.7)).to.deep.equal(0.25);
   });
-  it('division', () => {
+  it('div', () => {
     expect(calculateNumber('DIVIDE', 1.5, 3.7)).to.deep.equal(0.5);
   });
-  it('division of negative numbers', () => {
+  it('divNums', () => {
     expect(calculateNumber('DIVIDE', -2, -2)).to.deep.equal(1);
   });
-  it('division with negative decimals', () => {
+  it('div negative', () => {
     expect(calculateNumber('DIVIDE', -1.3, -4.5)).to.deep.equal(0.25);
   });
-  it('division decimals rounding down', () => {
+  it('div decimals', () => {
     expect(calculateNumber('DIVIDE', 0.4, 0.6)).to.deep.equal(0);
   });
-  it('division by zero should return "Error"', () => {
-    expect(calculateNumber('DIVIDE', 0.4, 0)).to.deep.equal('Error');
+  it('div decimal', () => {
+    expect(calculateNumber('DIVIDE', 0.4, 0.2)).to.deep.equal('Error');
   });
-  it('division main case', () => {
+  it('div main1', () => {
     expect(calculateNumber('DIVIDE', 1.4, 4.5)).to.deep.equal(0.2);
   });
-  it('division by zero edge case', () => {
+  it('div main2', () => {
     expect(calculateNumber('DIVIDE', 1.4, 0)).to.deep.equal('Error');
   });
 });
