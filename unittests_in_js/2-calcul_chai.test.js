@@ -1,4 +1,3 @@
-// 2-calcul_chai.test.js
 /* eslint-disable */
 const expect = require('chai').expect;
 const calculateNumber = require('./2-calcul_chai');

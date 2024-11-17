@@ -1,26 +1,21 @@
-// 2-calcul_chai.js
-
+/* eslint-disable */
 function calculateNumber(type, a, b) {
-    const roundedA = Math.round(a);
-    const roundedB = Math.round(b);
+    const num1 = Math.round(a);
+    const num2 = Math.round(b);
   
-    if (type === "SUM") {
-      return roundedA + roundedB;
+    if (type === 'SUM') {
+      return num1 + num2;
     }
-  
-    if (type === "SUBTRACT") {
-      return roundedA - roundedB;
+    if (type === 'SUBTRACT') {
+      return num1 - num2;
     }
-  
-    if (type === "DIVIDE") {
-      if (roundedB === 0) {
-        return "Error";
+    if (type === 'DIVIDE') {
+      if (num2 === 0) {
+        return 'Error';
       }
-      return roundedA / roundedB;
+      return num1 / num2;
     }
-  
-    throw new Error("Invalid operation type");
+    return num1 + num2;
   }
   
-  export default calculateNumber;
-  
+  module.exports = calculateNumber;
