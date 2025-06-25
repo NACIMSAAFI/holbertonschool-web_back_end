@@ -1,0 +1,12 @@
+# Ignore zip files
+*.zip
+
+# Ignore text files
+*.txt
+
+# Ignore all main files
+main_*.py
+
+# Ignore Python cache
+__pycache__/
+*.pyc
