@@ -26,24 +26,21 @@ elif getenv("AUTH_TYPE") == "basic_auth":
 
 
 @app.before_request
-def before_request():
-    """before_request function"""
-    if auth is None:
-        return
-    exist = auth.require_auth(
-        request.path,
-        ['/api/v1/status/', '/api/v1/unauthorized/',
-         '/api/v1/forbidden/', "/api/v1/auth_session/login/"])
-    if exist is False:
-        return
-    authorization_header = auth.authorization_header(request)
-    if (authorization_header is None and
-            auth.session_cookie(request) is None):
-        abort(401)
-    current_user = auth.current_user(request)Add commentMore actions
-    if current_user is None:
-        abort(403)
-    request.current_user = current_user
+def before_request() -> None:
+    """Before request handler"""
+    if auth is not None:
+        excluded_paths = [
+            "/api/v1/status/",
+            "/api/v1/unauthorized/",
+            "/api/v1/forbidden/",
+        ]
+        if not auth.require_auth(request.path, excluded_paths):
+            return
+        if not auth.authorization_header(request):
+            abort(401)
+        request.current_user = auth.current_user(request)
+        if not request.current_user:
+            abort(403)
 
 
 @app.errorhandler(404)
