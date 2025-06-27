@@ -2,6 +2,7 @@
 """SessionAuth class for session"""
 from api.v1.auth.auth import Auth
 import uuid
+from models.user import User
 
 
 class SessionAuth(Auth):
@@ -10,12 +11,7 @@ class SessionAuth(Auth):
     user_id_by_session_id = {}
 
     def create_session(self, user_id: str = None) -> str:
-        """Creates a session ID for a user
-        Args:
-            user_id (str): The user ID to create a session for
-        Returns:
-            str: The session ID
-        """
+        """Creates a session ID for a user"""
         if user_id is None or not isinstance(user_id, str):
             return None
         session_id = str(uuid.uuid4())
@@ -23,12 +19,19 @@ class SessionAuth(Auth):
         return session_id
 
     def user_id_for_session_id(self, session_id: str = None) -> str:
-        """Retrieves the user ID for a given session ID
-        Args:
-            session_id (str): The session ID to retrieve the user ID for
-        Returns:
-            str: The user ID or None if not found
-        """
+        """Retrieves the user ID for a given session ID"""
         if session_id is None or not isinstance(session_id, str):
             return None
-        return self.user_id_by_session_id.get(session_id, None)
+        return self.user_id_by_session_id.get(session_id)
+
+    def current_user(self, request=None):
+        """Returns the current user based on the session ID in the request"""
+        session_id = self.session_cookie(request)
+        if session_id is None:
+            return None
+
+        user_id = self.user_id_for_session_id(session_id)
+        if user_id is None:
+            return None
+
+        return User.get(user_id)
