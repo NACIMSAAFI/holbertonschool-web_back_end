@@ -3,6 +3,8 @@
 from api.v1.auth.auth import Auth
 import uuid
 from models.user import User
+from flask import request, jsonify
+from models.user import User
 
 
 class SessionAuth(Auth):
@@ -35,3 +37,19 @@ class SessionAuth(Auth):
             return None
 
         return User.get(user_id)
+
+    def destroy_session(self, request=None):
+        """Destroys the session for the current user"""
+        if request is None:
+            return False
+
+        session_id = self.session_cookie(request)
+        if session_id is None:
+            return False
+
+        user_id = self.user_id_for_session_id(session_id)
+        if user_id is None:
+            return False
+
+        del self.user_id_by_session_id[session_id]
+        return True
