@@ -1,13 +1,20 @@
 #!/usr/bin/env python3
-"""Basic Babel setup & Parametrize templates"""
-
+"""Task 5: Mock logging in"""
 from flask import Flask, render_template, request, g
-from flask_babel import Babel
-
-app = Flask(__name__, template_folder="templates")
-babel = Babel(app)
+from flask_babel import Babel, _
+from typing import Optional, Dict
 
 
+class Config:
+    LANGUAGES = ["en", "fr"]
+    BABEL_DEFAULT_LOCALE = "en"
+    BABEL_DEFAULT_TIMEZONE = "UTC"
+
+
+app = Flask(__name__)
+app.config.from_object(Config)
+
+# Users table
 users = {
     1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
     2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
@@ -16,47 +23,47 @@ users = {
 }
 
 
-class Config:
-    """config class for babel configuration"""
+# Custom Babel class to override get_locale
+class MyBabel(Babel):
+    def get_locale(self):
+        # Check if user has a preferred locale
+        user = getattr(g, "user", None)
+        if user:
+            user_locale = user.get("locale")
+            if user_locale in app.config["LANGUAGES"]:
+                return user_locale
 
-    LANGUAGES = ["en", "fr"]
-    BABEL_DEFAULT_LOCALE = "en"
-    BABEL_DEFAULT_TIMEZONE = "UTC"
-
-
-app.config.from_object(Config)
-
-
-@babel.localeselector
-def get_locale():
-    """get_locale method that determine the best match
-    with our supported languages for the client's browser"""
-    if "locale" in request.args:
-        locale = request.args["locale"]
-        if locale in Config.LANGUAGES:
+        # Fallback to URL param
+        locale = request.args.get("locale")
+        if locale in app.config["LANGUAGES"]:
             return locale
-    return request.accept_languages.best_match(Config.LANGUAGES)
+
+        # Fallback to request header
+        return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 
-def get_user():
-    """get_user method"""
-    user_id = request.args.get("login_as")
-    if user_id:
-        return users.get(int(user_id))
-    return None
+babel = MyBabel(app)
+
+
+# Get user based on ?login_as=ID
+def get_user() -> Optional[Dict]:
+    try:
+        user_id = int(request.args.get("login_as"))
+        return users.get(user_id)
+    except (TypeError, ValueError):
+        return None
 
 
 @app.before_request
 def before_request():
-    """before_request method"""
+    """Executed before each request."""
     g.user = get_user()
 
 
 @app.route("/")
 def index():
-    """index method to render default template"""
     return render_template("5-index.html")
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
